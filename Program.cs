@@ -1,7 +1,8 @@
 ﻿bool r = true;
+Console.Clear();
+    
 while(r){
     Console.WriteLine("Введите несколько наборов из трех чисел в формате '0.0, 0.0, 0.0;'");
-
     string s = Console.ReadLine().Replace(" ", "");
     string[] sa = s.Split(';'); //разбили на точки
     double[][] cl = new double[2][];
@@ -11,21 +12,22 @@ while(r){
         bool f = true;
         cl[0]=StrToIntAr(san,true);
 
-        Console.WriteLine(String.Join(", ", cl[0]));
-
-        if(!(cl[0].Length-1==3)){
+        if((cl[0].Length-1==3)){
+            if (cl[0][0]==0){
+                if(!fi){
+                    Console.WriteLine($"Расстояние между точками ({cl[0][1]},{cl[0][2]},{cl[0][3]}) и ({cl[1][1]},{cl[1][2]},{cl[1][3]}) = { Math.Sqrt(Math.Pow(cl[0][1]-cl[1][1],2)+Math.Pow(cl[0][2]-cl[1][2],2)+Math.Pow(cl[0][3]-cl[1][3],2))}");
+                }
+                fi=false;
+                cl[1]=cl[0];
+            }
+        }else{
             Console.WriteLine($"Неверное количество параметров в координатах: {san}");
         }
-
-        if (cl[0][0]==0){
-            if(!fi){
-                Console.WriteLine($"Расстояние между точками ({cl[0][1]},{cl[0][2]},{cl[0][3]}) и ({cl[1][1]},{cl[1][2]},{cl[1][3]}) = { Math.Sqrt(Math.Pow(cl[0][1]-cl[1][1],2)+Math.Pow(cl[0][2]-cl[1][2],2)+Math.Pow(cl[0][3]-cl[1][3],2))}");
-            }
-            fi=false;
-            cl[1]=cl[0];
-        }
     }
-    r=false;
+    if (s=="end"){
+        r=false;
+    }
+    
 }
 
 double[] StrToIntAr(string str, bool err) {

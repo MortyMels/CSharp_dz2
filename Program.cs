@@ -4,44 +4,41 @@ while(r){
 
     string s = Console.ReadLine().Replace(" ", "");
     string[] sa = s.Split(';'); //разбили на точки
-    double[,] cl = new double[2,3];
-    object[] clc = {};
+    double[][] cl = new double[2][];
     bool fi = true;
     foreach (var san in sa)
     {
-        string[] sani = san.Split(','); //x, y, z
+        bool f = true;
+        cl[0]=StrToIntAr(san,true);
 
-        try{ //проверка на корректность ввода координат 
-            if(sani.Length==3){
-                bool f = true;
+        Console.WriteLine(String.Join(", ", cl[0]));
 
-                int i = 0;
-                
-                foreach (var sanin in sani)
-                {
-                    try { //проверка на корректность ввода числа
-                        double saninb = double.Parse(sanin);
-                        cl[1,i++]=saninb;
-                    } catch {
-                        f=false;
-                        Console.WriteLine($"Нераспознаный символ '{sanin}' координат: {String.Join(", ", sani)}");
-                    }
-                }
-                if(!fi&f){
-                    Console.WriteLine($"Расстояние между точками ({cl[0,0]},{cl[0,1]},{cl[0,2]}) и ({cl[1,0]},{cl[1,1]},{cl[1,2]}) = { Math.Sqrt(cl[0,0]*cl[1,0]+cl[0,1]*cl[1,1]+cl[0,2]*cl[1,2])}");
-                }
-                if(f){
-                    fi=false;
-                    cl[0,0]=cl[1,0];
-                    cl[0,1]=cl[1,1];
-                    cl[0,2]=cl[1,2];
-                }
-            }else{
-                Console.WriteLine($"Неверное количество параметров в координатах: {san}");
+        if(!(cl[0].Length-1==3)){
+            Console.WriteLine($"Неверное количество параметров в координатах: {san}");
+        }
+
+        if (cl[0][0]==0){
+            if(!fi){
+                Console.WriteLine($"Расстояние между точками ({cl[0][1]},{cl[0][2]},{cl[0][3]}) и ({cl[1][1]},{cl[1][2]},{cl[1][3]}) = { Math.Sqrt(Math.Pow(cl[0][1]-cl[1][1],2)+Math.Pow(cl[0][2]-cl[1][2],2)+Math.Pow(cl[0][3]-cl[1][3],2))}");
             }
-        } catch {
-            Console.WriteLine($"Координаты введены некорректно: {san}");
+            fi=false;
+            cl[1]=cl[0];
         }
     }
     r=false;
+}
+
+double[] StrToIntAr(string str, bool err) {
+    string[] stra = str.Split(',');
+    double[] numa = new double [stra.Length+1];
+    int i = 0;
+    foreach (string strai in stra){
+        if(!double.TryParse(strai, out numa[++i])){
+            if(err){
+                Console.WriteLine($"Нераспознан {i} элемента набора '{strai}' в: {str}");
+            }
+            numa[0]++;
+        }
+    }
+    return numa;
 }

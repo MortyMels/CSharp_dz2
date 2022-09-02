@@ -1,4 +1,4 @@
-﻿bool r = true;
+﻿bool r = true; //Длинна вектора dz3
 Console.Clear();
     
 while(r){
